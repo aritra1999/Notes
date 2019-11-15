@@ -1,0 +1,43 @@
+{% extends "notes/base.html" %}
+{% block content %}
+
+    <small>
+        <div class="mb-4 mt-5">
+            <form action="{% url "search" %}" method="POST">{% csrf_token %}
+                <input name="type" value="search" type="hidden">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control p-3" placeholder="Enter Keyword" name="key" required/>
+                    <div class="input-group-append">
+                        <button class="btn btn-warning pr-3 pl-3" type="submit" id="button-addon2">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        {% if results.count > 0 %}
+            <div class="alert alert-primary" role="alert">
+                Showing {{ results.count }} results for {{ searched }}
+            </div>
+            <div class="list-group mb-3">
+                {% for result in results %}
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between pt-2 font-weight-bold">
+                            <h5 class="pt-1 font-weight-bolder">{{ result.title }}</h5>
+                            <small>{{ result.timestamp }}</small>
+                        </div>
+                        <hr>
+                        <p class="mb-1">
+                            {{ result.description }}
+                        </p>
+                    </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-danger" role="alert">
+                Sorry no results found for {{ searched }}
+            </div>
+        {% endif %}
+        <a href="{% url "list" %}" role="button" class="btn btn-primary btn-sm font-weight-bold pl-4 pr-4"
+           style="position: fixed;right: 20px;bottom: 20px;">Back
+        </a>
+    </small>
+{% endblock %}

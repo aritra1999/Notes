@@ -1,0 +1,23 @@
+{% extends "notes/base.html" %}
+{% block content %}
+    <style>
+        form {
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+    </style>
+    <form action="" method="POST">{% csrf_token %}
+        <div class="form-group">
+            <div class="input-group mb-3">
+                <input type="password" class="form-control" placeholder="Password" name="password" required/>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-dark" type="submit" id="button-addon2">Enter</button>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}

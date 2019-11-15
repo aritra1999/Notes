@@ -1,0 +1,17 @@
+{% extends "notes/base.html" %}
+{% block content %}
+    <style>
+        form {
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+    </style>
+    <form action="" method="POST">{% csrf_token %}
+        <input type="hidden" name="title" value="{{ note.title }}">
+        <button type="submit" class="btn btn-danger btn-sm">DELETE</button>
+    </form>
+{% endblock %}
