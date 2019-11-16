@@ -1,1 +1,1 @@
-web: gunicorn oreonotes.wsgi --log-file -
+web: gunicorn Notes.wsgi --log-file -
