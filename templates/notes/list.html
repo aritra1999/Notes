@@ -37,8 +37,15 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
+
                         <form action="{% url "edit" %}" method="POST">{% csrf_token %}
                             <div class="modal-body">
+
+                                {{ note.description|safe }}
+                                <hr>
+                                <div class="alert alert-primary" role="alert">
+                                    Edit
+                                </div>
                                 <input type="hidden" name="title" value="{{ note.title }}"/>
                                 <textarea class="form-control" value="{{ note.description }}" name="description"
                                           rows="20">{{ note.description }}</textarea>
