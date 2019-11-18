@@ -1,10 +1,10 @@
 {% extends "notes/base.html" %}
 {% block content %}
 
-    <div class="mb-4 mt-5">
+    <div class="mb-2 mt-5">
         <form action="{% url "search" %}" method="POST">{% csrf_token %}
             <input name="type" value="search" type="hidden">
-            <div class="input-group mb-3">
+            <div class="input-group mb-3 shadow">
                 <input type="text" class="form-control p-3" placeholder="Enter Keyword" name="key" required/>
                 <div class="input-group-append">
                     <button class="btn btn-warning pr-3 pl-3" type="submit" id="button-addon2">Search</button>
@@ -15,56 +15,61 @@
     </div>
 
 
-    <div class="list-group mt-5">
-        {% for note in notes %}
-            <a class="list-group-item list-group-item-action" data-toggle="modal" data-target="#model{{ note.id }}">
-                <div class="d-flex w-100 justify-content-between">
-                    <p class="mb-1">
-                        {{ note.title }}
-                        <small class="text-muted ml-5 p-1">{{ note.description|truncatechars:50 }}</small>
-                    </p>
-                    <small class="text-muted p-1">{{ note.timestamp }}</small>
-                </div>
-            </a>
-            <div class="modal fade" id="model{{ note.id }}" tabindex="-1" role="dialog"
-                 aria-labelledby="exampleModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-                    <div class="modal-content ">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">{{ note.title }}</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
+    {#    <div class="list-group mt-5">#}
+    {% for note in notes %}
+        <a class="list-group-item list-group-item-action mb-2 shadow" data-toggle="modal" style="border-radius: 4px;"
+           data-target="#model{{ note.id }}">
+            <div class="d-flex w-100 justify-content-between">
+                <p class="mb-1">
+                    {{ note.title }}
+                    <small class="text-muted float-right">{{ note.timestamp }}</small>
+                    <br><br>
+                    <small class="text-muted p-1">{{ note.description|truncatechars:100 }}</small>
+                </p>
+
+            </div>
+        </a>
+        <div class="modal fade" id="model{{ note.id }}" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                <div class="modal-content ">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{{ note.title }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <form action="{% url "edit" %}" method="POST">{% csrf_token %}
+                        <div class="modal-body">
+
+                            <small>
+                                {{ note.description|safe }}
+                            </small>
+                            <hr>
+                            <div class="alert alert-primary" role="alert">
+                                Edit
+                            </div>
+                            <input type="hidden" name="title" value="{{ note.title }}"/>
+                            <textarea class="form-control" value="{{ note.description }}" name="description"
+                                      rows="20">{{ note.description }}</textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" name="job" value="delete"
+                                    class="btn btn-danger btn-sm px-5 py-1">Delete
+                            </button>
+                            <button type="submit" name="job" value="edit"
+                                    class="btn btn-warning btn-sm px-5 py-1">Save
                             </button>
                         </div>
-
-                        <form action="{% url "edit" %}" method="POST">{% csrf_token %}
-                            <div class="modal-body">
-
-                                {{ note.description|safe }}
-                                <hr>
-                                <div class="alert alert-primary" role="alert">
-                                    Edit
-                                </div>
-                                <input type="hidden" name="title" value="{{ note.title }}"/>
-                                <textarea class="form-control" value="{{ note.description }}" name="description"
-                                          rows="20">{{ note.description }}</textarea>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" name="job" value="delete"
-                                        class="btn btn-danger btn-sm px-5 py-1">Delete
-                                </button>
-                                <button type="submit" name="job" value="edit"
-                                        class="btn btn-warning btn-sm px-5 py-1">Save
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+                    </form>
                 </div>
             </div>
-        {% endfor %}
+        </div>
+    {% endfor %}
 
-    </div>
+    {#    </div>#}
 
 
     <!-- Modal -->
@@ -102,11 +107,11 @@
         </div>
     </div>
 
-    <button type="button" class="btn btn-primary btn-sm pr-4 pl-4" data-toggle="modal"
+    <button type="button" class="btn btn-primary btn-sm pr-4 pl-4 shadow" data-toggle="modal"
             data-target="#exampleModalCenter" style="position:fixed; bottom:20px;right:20px;">
         <strong>Add</strong>
     </button>
-    <a href="{% url "logout" %}" role="button" class="btn btn-danger btn-sm font-weight-bold pl-4 pr-4"
+    <a href="{% url "logout" %}" role="button" class="btn btn-danger btn-sm font-weight-bold pl-4 pr-4 shadow"
        style="position: fixed;left: 20px;bottom: 20px;">Logout
     </a>
 {% endblock %}
